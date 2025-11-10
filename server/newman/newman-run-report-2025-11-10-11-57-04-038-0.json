@@ -1,0 +1,381 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "5d0a70b9-40c8-4e63-9391-e01a6c5cbbc4",
+        "name": "https://jsonplaceholder.typicode.com/posts",
+        "request": {
+          "url": {
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n        \"userId\": 2,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+          }
+        },
+        "response": [],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "eef9e88a-216c-474d-93a0-34362b50c7e3",
+      "name": "inf-bank-custarr",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "id": "f5f7e27f-ccef-400c-b0f0-d2c63085bee9",
+    "values": []
+  },
+  "globals": {
+    "id": "db93ca7a-cce8-4200-8f0a-be4646e73afb",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 1
+      },
+      "tests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 0,
+      "responseMin": 0,
+      "responseMax": 0,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1762775824022,
+      "completed": 1762775824037
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "d211074a-18d6-4c11-8014-0a6f42136b5d",
+          "httpRequestId": "330682d3-da81-45f4-9249-0bc740ffef65"
+        },
+        "item": {
+          "id": "5d0a70b9-40c8-4e63-9391-e01a6c5cbbc4",
+          "name": "https://jsonplaceholder.typicode.com/posts",
+          "request": {
+            "url": {
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"userId\": 2,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n        \"userId\": 2,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+          }
+        },
+        "id": "5d0a70b9-40c8-4e63-9391-e01a6c5cbbc4",
+        "requestError": {}
+      }
+    ],
+    "transfers": {
+      "responseTotal": 0
+    },
+    "failures": [
+      {
+        "error": {
+          "name": "Error",
+          "message": "runtime:extensions~request: request url is empty",
+          "stack": "Error: runtime:extensions~request: request url is empty\n    at Requester.request (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/requester.js:421:26)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/runner/extensions/http-request.command.js:156:37\n    at Requester.create (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/requester.js:508:16)\n    at RequesterPool.create (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/requester-pool.js:67:22)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/runner/extensions/http-request.command.js:105:32\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:252:13\n    at wrapper (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:273:20)\n    at replenish (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:443:29)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:453:13\n    at eachOfLimit (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:479:36)\n    at awaitable (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:212:32)\n    at eachOfSeries (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:815:16)\n    at awaitable (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:212:32)\n    at _asyncMap (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:245:16)\n    at mapSeries (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:839:16)\n    at awaitable (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:212:32)",
+          "checksum": "b7c65fc5707c93a0f34d965862bf1f70",
+          "id": "2f5757ba-0296-4aa4-9ed9-d205265e92d0",
+          "timestamp": 1762775824033,
+          "stacktrace": [
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/requester.js",
+              "lineNumber": 421,
+              "functionName": "Requester.request",
+              "typeName": "Requester",
+              "methodName": "request",
+              "columnNumber": 26,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/runner/extensions/http-request.command.js",
+              "lineNumber": 156,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 37,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/requester.js",
+              "lineNumber": 508,
+              "functionName": "Requester.create",
+              "typeName": "Requester",
+              "methodName": "create",
+              "columnNumber": 16,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/requester-pool.js",
+              "lineNumber": 67,
+              "functionName": "RequesterPool.create",
+              "typeName": "RequesterPool",
+              "methodName": "create",
+              "columnNumber": 22,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/runner/extensions/http-request.command.js",
+              "lineNumber": 105,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 32,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 252,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 443,
+              "functionName": "replenish",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 29,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 453,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 479,
+              "functionName": "eachOfLimit",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 36,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 212,
+              "functionName": "awaitable",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 32,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 815,
+              "functionName": "eachOfSeries",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 16,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 212,
+              "functionName": "awaitable",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 32,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 245,
+              "functionName": "_asyncMap",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 16,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 839,
+              "functionName": "mapSeries",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 16,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 212,
+              "functionName": "awaitable",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 32,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "5d0a70b9-40c8-4e63-9391-e01a6c5cbbc4",
+          "name": "https://jsonplaceholder.typicode.com/posts",
+          "request": {
+            "url": {
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"userId\": 2,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "d211074a-18d6-4c11-8014-0a6f42136b5d",
+          "httpRequestId": "330682d3-da81-45f4-9249-0bc740ffef65"
+        }
+      }
+    ],
+    "error": null
+  }
+}

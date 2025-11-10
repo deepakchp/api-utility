@@ -1,0 +1,463 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "a12c344e-0a34-4219-a7cf-5f37407fd09a",
+        "name": "Get Customer",
+        "request": {
+          "url": {
+            "query": [
+              {
+                "key": "testparam",
+                "value": "xyz"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "testheader",
+              "value": "xz"
+            }
+          ],
+          "method": "GET",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+          }
+        },
+        "response": [],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "d79e0dc4-ab33-4582-bb76-d56815de238c",
+      "name": "inf-bank-custarr",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "id": "110b82c5-7964-4306-8c71-7c37d6c24bbf",
+    "values": []
+  },
+  "globals": {
+    "id": "c801136e-168e-4f6e-b67d-ca938b0cac78",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 1
+      },
+      "tests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 0,
+      "responseMin": 0,
+      "responseMax": 0,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1762775672284,
+      "completed": 1762775672291
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "42ba70a6-662a-4857-97ee-c9bb7da91772",
+          "httpRequestId": "44532ec6-a4d4-4bee-af1d-dd4633a0369a"
+        },
+        "item": {
+          "id": "a12c344e-0a34-4219-a7cf-5f37407fd09a",
+          "name": "Get Customer",
+          "request": {
+            "url": {
+              "query": [
+                {
+                  "key": "testparam",
+                  "value": "xyz"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "testheader",
+                "value": "xz"
+              }
+            ],
+            "method": "GET",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "query": [
+              {
+                "key": "testparam",
+                "value": "xyz"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "testheader",
+              "value": "xz"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "f0ce8527-306e-4c41-9338-230d57389128",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+          }
+        },
+        "id": "a12c344e-0a34-4219-a7cf-5f37407fd09a",
+        "requestError": {}
+      }
+    ],
+    "transfers": {
+      "responseTotal": 0
+    },
+    "failures": [
+      {
+        "error": {
+          "name": "Error",
+          "message": "Invalid URI \"http:///?testparam=xyz\"",
+          "stack": "Error: Invalid URI \"http:///?testparam=xyz\"\n    at Request.init (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js:399:31)\n    at new Request (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js:226:8)\n    at request (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/index.js:46:10)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:79:23\n    at wrapper (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:273:20)\n    at next (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5797:24)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:329:20\n    at setCertificate (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:50:20)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:74:13\n    at nextTask (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5791:13)\n    at next (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5799:13)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:329:20\n    at setProxy (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:31:9)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:71:13\n    at nextTask (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5791:13)\n    at Object.waterfall (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5802:9)",
+          "checksum": "54851184f2f143c8f6b3cb51840a9022",
+          "id": "e2b01afb-a04e-4ac6-8f00-fdce56193551",
+          "timestamp": 1762775672287,
+          "stacktrace": [
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js",
+              "lineNumber": 399,
+              "functionName": "Request.init",
+              "typeName": "Request",
+              "methodName": "init",
+              "columnNumber": 31,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js",
+              "lineNumber": 226,
+              "functionName": "new Request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 8,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/index.js",
+              "lineNumber": 46,
+              "functionName": "request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 10,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 79,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 23,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5797,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 24,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 50,
+              "functionName": "setCertificate",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 74,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5799,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 31,
+              "functionName": "setProxy",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 9,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 71,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5802,
+              "functionName": "Object.waterfall",
+              "typeName": "Object",
+              "methodName": "waterfall",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "a12c344e-0a34-4219-a7cf-5f37407fd09a",
+          "name": "Get Customer",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "query": [
+                {
+                  "key": "testparam",
+                  "value": "xyz"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "testheader",
+                "value": "xz"
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "f0ce8527-306e-4c41-9338-230d57389128",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "GET",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "42ba70a6-662a-4857-97ee-c9bb7da91772",
+          "httpRequestId": "44532ec6-a4d4-4bee-af1d-dd4633a0369a"
+        }
+      }
+    ],
+    "error": null
+  }
+}
