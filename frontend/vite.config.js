@@ -8,6 +8,14 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/run": "http://localhost:5000",
+      "/environments": {
+        target: "http://localhost:5000",
+        changeOrigin: true
+      },
+      "/environment": {
+        target: "http://localhost:5000",
+        changeOrigin: true
+      },
       "/apis": {
         target: "http://localhost:5000",
         changeOrigin: true,

@@ -4,7 +4,6 @@ import cors from "cors";
 import newman from "newman";
 import fs from "fs";
 import path from "path";
-import XLSX from "xlsx";
 
 const app = express();
 app.use(cors());
@@ -104,11 +103,36 @@ app.post('/save', (req, res) => {
   const buildRequest = (reqObj) => {
     const reqHeaders = (reqObj.headers || []).map(h => ({ key: h.key || h.name, value: h.value }));
     const body = reqObj.body ? { mode: 'raw', raw: reqObj.body } : undefined;
-    // keep url as raw string; also include query array if params provided
-    const urlRaw = reqObj.url || '';
+
+    // Build a Postman-style URL object. If frontend provided an object, use it.
+    let urlObj = null;
+    if (!reqObj.url) {
+      urlObj = { raw: '' };
+    } else if (typeof reqObj.url === 'object') {
+      // clone basic object
+      urlObj = { ...reqObj.url };
+      if (reqObj.url.raw === undefined) urlObj.raw = (reqObj.url.protocol ? (reqObj.url.protocol + '://') : '') + ((Array.isArray(reqObj.url.host) ? reqObj.url.host.join('.') : reqObj.url.host) || '') + (Array.isArray(reqObj.url.path) ? ('/' + reqObj.url.path.join('/')) : (reqObj.url.path || ''));
+    } else {
+      // try to parse string URL into components
+      const urlRaw = String(reqObj.url);
+      try {
+        const parsed = new URL(urlRaw);
+        urlObj = {
+          raw: urlRaw,
+          protocol: parsed.protocol.replace(':', ''),
+          host: parsed.hostname ? parsed.hostname.split('.') : [],
+          path: parsed.pathname ? parsed.pathname.split('/').filter(Boolean) : [],
+        };
+      } catch (e) {
+        // not a full URL, just save raw
+        urlObj = { raw: urlRaw };
+      }
+    }
+
+    // include query params if provided
     const query = (reqObj.params || []).filter(p => p.key).map(p => ({ key: p.key, value: p.value }));
-    const urlObj = { raw: urlRaw };
     if (query.length) urlObj.query = query;
+
     return { method: reqObj.method || 'GET', header: reqHeaders, body, url: urlObj };
   };
 
@@ -149,32 +173,157 @@ app.post('/save', (req, res) => {
 });
 
 // Excel and collections config
-const EXCEL_PATH = path.join(process.cwd(), "api_master.xlsx");
-const COLLECTIONS_DIR = path.join(process.cwd(), "collections");
 
-// Helper to read API names from Excel (first sheet)
-function readApiNamesFromExcel() {
-  if (!fs.existsSync(EXCEL_PATH)) return [];
-  const workbook = XLSX.readFile(EXCEL_PATH);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const data = XLSX.utils.sheet_to_json(sheet);
-  // Try common column names
-  const candidates = ["APIName", "ApiName", "apiName", "name", "Name"];
-  return data.map(row => {
-    for (const c of candidates) if (row[c]) return String(row[c]);
-    // fallback to first column value
-    const keys = Object.keys(row);
-    return keys.length ? String(row[keys[0]]) : null;
-  }).filter(Boolean);
+// Collections directory: prefer environment variable COLLECTIONS_DIR if provided
+// otherwise default to ./collections inside the server working directory
+const COLLECTIONS_DIR = process.env.COLLECTIONS_DIR
+  ? path.resolve(process.env.COLLECTIONS_DIR)
+  : path.join(process.cwd(), "collections");
+
+// Environments directory (Postman environment files). Prefer ENV_DIR env var
+const ENV_DIR = process.env.ENV_DIR ? path.resolve(process.env.ENV_DIR) : path.join(process.cwd(), "environments");
+// Ensure collections directory exists (create if missing)
+try {
+  if (!fs.existsSync(COLLECTIONS_DIR)) {
+    fs.mkdirSync(COLLECTIONS_DIR, { recursive: true });
+    console.log(`Created collections directory at ${COLLECTIONS_DIR}`);
+  }
+  // ensure env dir exists too (do not fail if it can't be created)
+  try {
+    if (!fs.existsSync(ENV_DIR)) {
+      fs.mkdirSync(ENV_DIR, { recursive: true });
+      console.log(`Created environments directory at ${ENV_DIR}`);
+    }
+  } catch (e) {
+    console.warn(`Could not create environments dir ${ENV_DIR}:`, e.message || e);
+  }
+} catch (err) {
+  console.error(`Failed to ensure collections directory ${COLLECTIONS_DIR}:`, err);
 }
 
-// GET /apis and GET /api - return list of API names from Excel
+// Helper to read API names from Excel (first sheet)
+// Helper to list API names from files in COLLECTIONS_DIR
+function listApiNamesFromDir() {
+  try {
+    if (!fs.existsSync(COLLECTIONS_DIR)) return [];
+    const entries = fs.readdirSync(COLLECTIONS_DIR, { withFileTypes: true });
+    // Consider regular files only, ignore directories and hidden files
+    const names = entries
+      .filter(e => e.isFile())
+      .map(e => e.name)
+      .filter(n => !n.startsWith('.'))
+      .map(n => path.parse(n).name);
+    // remove duplicates and sort
+    return Array.from(new Set(names)).sort();
+  } catch (err) {
+    console.error('Failed to list collections dir:', err);
+    return [];
+  }
+}
+
+// GET /apis and GET /api - return list of API names derived from files in COLLECTIONS_DIR
 app.get(["/apis", "/api"], (req, res) => {
   try {
-    const names = readApiNamesFromExcel();
+    const names = listApiNamesFromDir();
     res.json(names);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// Helper to list Postman-like environment files from ENV_DIR
+function listEnvironmentsFromDir() {
+  try {
+    // Only gather environment files from ENV_DIR (do not inspect COLLECTIONS_DIR)
+    if (!fs.existsSync(ENV_DIR)) return [];
+    const entries = fs.readdirSync(ENV_DIR, { withFileTypes: true });
+    const names = entries
+      .filter(e => e.isFile())
+      .map(e => e.name)
+      .filter(n => !n.startsWith('.'))
+      .filter(n => {
+        const ln = n.toLowerCase();
+        return ln.endsWith('.json') || ln.endsWith('.postman_environment') || ln.endsWith('.postman_environment.json');
+      })
+      .map(n => path.parse(n).name);
+    return Array.from(new Set(names)).sort();
+  } catch (err) {
+    console.error('Failed to list environments dir:', err);
+    return [];
+  }
+}
+
+// Parse environment file and return variables array
+function readEnvironment(name) {
+  try {
+    const safe = path.basename(name);
+    // try common filename extensions in ENV_DIR only
+    const candidates = [
+      path.join(ENV_DIR, `${safe}.json`),
+      path.join(ENV_DIR, `${safe}.postman_environment`),
+      path.join(ENV_DIR, `${safe}.postman_environment.json`),
+    ];
+    let filePath = candidates.find(p => fs.existsSync(p));
+    if (!filePath) return null;
+    const raw = fs.readFileSync(filePath, 'utf8');
+    const obj = JSON.parse(raw);
+    // Postman environment formats vary: look for 'values' or 'variables' or 'environment.values'
+    let vars = [];
+    if (Array.isArray(obj.values)) vars = obj.values;
+    else if (Array.isArray(obj.variables)) vars = obj.variables;
+    else if (obj.environment && Array.isArray(obj.environment.values)) vars = obj.environment.values;
+    // normalize to { key, value, enabled }
+    const out = vars.map(v => ({ key: v.key || v.name || v.variable || v.var || '', value: v.value || v.current || v.default || '', enabled: v.enabled === undefined ? true : !!v.enabled }));
+    return { name: obj.name || safe, values: out };
+  } catch (err) {
+    console.error('Failed to read environment', name, err.message || err);
+    return null;
+  }
+}
+
+// GET /environments - list available environment names
+app.get('/environments', (req, res) => {
+  try {
+    const list = listEnvironmentsFromDir();
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /environment/:name - return parsed environment variables
+app.get('/environment/:name', (req, res) => {
+  const name = req.params.name;
+  if (!name) return res.status(400).json({ error: 'name required' });
+  const env = readEnvironment(name);
+  if (!env) return res.status(404).json({ error: 'Environment not found or failed to parse' });
+  res.json(env);
+});
+
+// POST /environment/:name - save environment variables to ENV_DIR
+app.post('/environment/:name', (req, res) => {
+  const name = req.params.name;
+  if (!name) return res.status(400).json({ error: 'name required' });
+  const body = req.body || {};
+  const values = Array.isArray(body.values) ? body.values : [];
+  // normalize values to objects with key, value, enabled
+  const normalized = values.map(v => ({ key: v.key || v.name || '', value: v.value || '', enabled: v.enabled === undefined ? true : !!v.enabled }));
+  const out = {
+    id: `${name}-env`,
+    name: name,
+    values: normalized,
+    _postman_variable_scope: 'environment',
+    _postman_exported_at: new Date().toISOString(),
+    _postman_exported_using: 'newman-api-runner-pro'
+  };
+  try {
+    if (!fs.existsSync(ENV_DIR)) fs.mkdirSync(ENV_DIR, { recursive: true });
+    const filePath = path.join(ENV_DIR, `${path.basename(name)}.json`);
+    fs.writeFileSync(filePath, JSON.stringify(out, null, 2), 'utf8');
+    res.json({ ok: true, name, file: filePath });
+  } catch (err) {
+    console.error('Failed to write environment', name, err);
+    res.status(500).json({ error: 'Failed to write environment' });
   }
 });
 

@@ -1,0 +1,489 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "b59a9750-592f-4836-aac0-d602babbf142",
+        "name": "https://jsonplaceholder.typicode.com/posts",
+        "request": {
+          "url": {
+            "query": [
+              {
+                "key": "testparam",
+                "value": "xyz"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "testheader",
+              "value": "xz"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{api_key}}"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n        \"userId\": 4,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+          }
+        },
+        "response": [],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "66e1dc84-2050-4e35-8e65-3c25ad759f96",
+      "name": "inf-bank-custarr",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "id": "0574f3de-620f-4988-89cd-468083095d69",
+    "values": []
+  },
+  "globals": {
+    "id": "20938b8c-856e-49b8-87c1-486b7960046a",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 1
+      },
+      "tests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 0,
+      "responseMin": 0,
+      "responseMax": 0,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1762929487889,
+      "completed": 1762929487928
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "30b40272-aa25-48e0-a06b-3bd9920a9699",
+          "httpRequestId": "aea65d47-24cb-4acc-93be-76a46d634b70"
+        },
+        "item": {
+          "id": "b59a9750-592f-4836-aac0-d602babbf142",
+          "name": "https://jsonplaceholder.typicode.com/posts",
+          "request": {
+            "url": {
+              "query": [
+                {
+                  "key": "testparam",
+                  "value": "xyz"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "testheader",
+                "value": "xz"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{api_key}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"userId\": 4,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "query": [
+              {
+                "key": "testparam",
+                "value": "xyz"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "testheader",
+              "value": "xz"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{api_key}}"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain",
+              "system": true
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5c8af57c-7803-4f22-b397-3d6435639325",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n        \"userId\": 4,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+          }
+        },
+        "id": "b59a9750-592f-4836-aac0-d602babbf142",
+        "requestError": {}
+      }
+    ],
+    "transfers": {
+      "responseTotal": 0
+    },
+    "failures": [
+      {
+        "error": {
+          "name": "Error",
+          "message": "Invalid URI \"http:///?testparam=xyz\"",
+          "stack": "Error: Invalid URI \"http:///?testparam=xyz\"\n    at Request.init (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js:399:31)\n    at new Request (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js:226:8)\n    at request (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/index.js:46:10)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:79:23\n    at wrapper (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:273:20)\n    at next (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5797:24)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:329:20\n    at setCertificate (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:50:20)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:74:13\n    at nextTask (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5791:13)\n    at next (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5799:13)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:329:20\n    at setProxy (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:31:9)\n    at /home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js:71:13\n    at nextTask (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5791:13)\n    at Object.waterfall (/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js:5802:9)",
+          "checksum": "54851184f2f143c8f6b3cb51840a9022",
+          "id": "d404d7ae-68e8-4cfa-aa6a-7089aa4da908",
+          "timestamp": 1762929487921,
+          "stacktrace": [
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js",
+              "lineNumber": 399,
+              "functionName": "Request.init",
+              "typeName": "Request",
+              "methodName": "init",
+              "columnNumber": 31,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/request.js",
+              "lineNumber": 226,
+              "functionName": "new Request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 8,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-request/index.js",
+              "lineNumber": 46,
+              "functionName": "request",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 10,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 79,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 23,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 273,
+              "functionName": "wrapper",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5797,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 24,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 50,
+              "functionName": "setCertificate",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 74,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5799,
+              "functionName": "next",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 329,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 20,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 31,
+              "functionName": "setProxy",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 9,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/postman-runtime/lib/requester/request-wrapper.js",
+              "lineNumber": 71,
+              "functionName": null,
+              "typeName": null,
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5791,
+              "functionName": "nextTask",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "/home/deepakchp/Project/AI/newman-api-runner-pro/server/node_modules/async/dist/async.js",
+              "lineNumber": 5802,
+              "functionName": "Object.waterfall",
+              "typeName": "Object",
+              "methodName": "waterfall",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "b59a9750-592f-4836-aac0-d602babbf142",
+          "name": "https://jsonplaceholder.typicode.com/posts",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "query": [
+                {
+                  "key": "testparam",
+                  "value": "xyz"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "testheader",
+                "value": "xz"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{api_key}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "text/plain",
+                "system": true
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "5c8af57c-7803-4f22-b397-3d6435639325",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"userId\": 4,\n        \"id\": 1222,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    }"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "30b40272-aa25-48e0-a06b-3bd9920a9699",
+          "httpRequestId": "aea65d47-24cb-4acc-93be-76a46d634b70"
+        }
+      }
+    ],
+    "error": null
+  }
+}

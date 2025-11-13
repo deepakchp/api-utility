@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Play, List } from "lucide-react";
+import { Play, List, Key } from "lucide-react";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { oneDark } from "@codemirror/theme-one-dark";
@@ -24,7 +24,11 @@ export default function App() {
   const [collectionItems, setCollectionItems] = useState([]);
   const [selectedEndpoint, setSelectedEndpoint] = useState(null);
   const [environments, setEnvironments] = useState(["local", "dev", "staging", "prod"]);
-  const [selectedEnv, setSelectedEnv] = useState("local");
+  const [selectedEnv, setSelectedEnv] = useState("sit");
+  const [environmentVars, setEnvironmentVars] = useState([]);
+  const [showEnvVars, setShowEnvVars] = useState(false);
+  const [envEditorOpen, setEnvEditorOpen] = useState(false);
+  const [envEditValues, setEnvEditValues] = useState([]);
 
   const runRequest = async () => {
     // build url with query params if provided
@@ -37,7 +41,7 @@ export default function App() {
       finalUrl += (finalUrl.includes("?") ? "&" : "?") + qs;
     }
 
-    const payload = { method, url: finalUrl, headers, body, params, environment: selectedEnv };
+  const payload = { method, url: finalUrl, headers, body, params, environment: { name: selectedEnv, values: environmentVars } };
     if (selectedApi) payload.collectionName = selectedApi;
     if (selectedEndpoint) payload.endpointName = selectedEndpoint;
 
@@ -49,6 +53,36 @@ export default function App() {
     const data = await res.json();
     setResponse(data);
     setActiveTab("response");
+  };
+
+  const buildUrlFromRequestUrl = (rUrl) => {
+    if (!rUrl) return '';
+    if (typeof rUrl === 'string') return rUrl;
+    if (rUrl.raw) return rUrl.raw;
+    // Try protocol + host + path
+    const protocol = rUrl.protocol || '';
+    let host = '';
+    if (Array.isArray(rUrl.host)) host = rUrl.host.join('.');
+    else if (rUrl.host) host = rUrl.host;
+    else if (rUrl.hostname) host = rUrl.hostname;
+
+    let path = '';
+    if (Array.isArray(rUrl.path)) path = rUrl.path.join('/');
+    else if (rUrl.path) path = rUrl.path;
+
+    let url = '';
+    if (protocol) url += protocol + '://';
+    if (host) url += host;
+    if (path) url += (host && !path.startsWith('/') ? '/' : '') + path;
+
+    // append query if present
+    const q = rUrl.query || rUrl.rawQuery || rUrl.queryParams || [];
+    const qarr = Array.isArray(q) ? q : [];
+    if (qarr.length) {
+      const qs = qarr.map(p => `${encodeURIComponent(p.key || p.name)}=${encodeURIComponent(p.value || '')}`).join('&');
+      url += (url.includes('?') ? '&' : '?') + qs;
+    }
+    return url || '';
   };
 
   const updateHeader = (i, key, value) => {
@@ -85,6 +119,48 @@ export default function App() {
     load();
     return () => { mounted = false; };
   }, []);
+
+  // Load available environments from server
+  useEffect(() => {
+    let mounted = true;
+    const loadEnvs = async () => {
+      try {
+        const res = await axios.get('/environments');
+        if (!mounted) return;
+        const list = Array.isArray(res.data) ? res.data : [];
+        if (list.length) {
+          setEnvironments(list);
+          // pick first env if current selection isn't present
+          if (!list.includes(selectedEnv)) setSelectedEnv(list[0]);
+        } else {
+          // keep existing defaults
+        }
+      } catch (err) {
+        console.error('Failed to load environments', err);
+      }
+    };
+    loadEnvs();
+    return () => { mounted = false; };
+  }, []);
+
+  // When selectedEnv changes, load its variables
+  useEffect(() => {
+    if (!selectedEnv) return;
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await axios.get(`/environment/${encodeURIComponent(selectedEnv)}`);
+        if (!mounted) return;
+        const envObj = res.data;
+        setEnvironmentVars(Array.isArray(envObj.values) ? envObj.values : []);
+      } catch (err) {
+        // not fatal, clear vars
+        setEnvironmentVars([]);
+      }
+    };
+    load();
+    return () => { mounted = false; };
+  }, [selectedEnv]);
 
   // Auto-select first API and its first endpoint after apis load
   useEffect(() => {
@@ -126,12 +202,10 @@ export default function App() {
         setSelectedEndpoint(first.name);
         const request = first.request;
         // populate request fields
-        if (request) {
+          if (request) {
           if (request.method) setMethod(request.method);
-          if (typeof request.url === 'string') setUrl(request.url);
-          else if (request.url?.raw) setUrl(request.url.raw);
-          else if (request.url?.href) setUrl(request.url.href);
-          else if (request.url?.toString) setUrl(request.url.toString());
+          const built = buildUrlFromRequestUrl(request.url);
+          if (built) setUrl(built);
 
           const reqHeaders = [];
           const hdrs = request.header || request.headers || [];
@@ -163,10 +237,8 @@ export default function App() {
         // method
         if (request.method) setMethod(request.method);
         // url can be string or object
-        if (typeof request.url === 'string') setUrl(request.url);
-        else if (request.url?.raw) setUrl(request.url.raw);
-        else if (request.url?.href) setUrl(request.url.href);
-        else if (request.url?.toString) setUrl(request.url.toString());
+        const built = buildUrlFromRequestUrl(request.url);
+        if (built) setUrl(built);
 
         // headers
         const reqHeaders = [];
@@ -203,10 +275,8 @@ export default function App() {
     const request = endpoint.request;
     if (!request) return;
     if (request.method) setMethod(request.method);
-    if (typeof request.url === 'string') setUrl(request.url);
-    else if (request.url?.raw) setUrl(request.url.raw);
-    else if (request.url?.href) setUrl(request.url.href);
-    else if (request.url?.toString) setUrl(request.url.toString());
+    const built = buildUrlFromRequestUrl(request.url);
+    if (built) setUrl(built);
 
     const reqHeaders = [];
     const hdrs = request.header || request.headers || [];
@@ -326,7 +396,91 @@ export default function App() {
             <option key={env} value={env}>{env.toUpperCase()}</option>
           ))}
         </select>
+        <button
+          onClick={() => {
+            // open editor popup with a mutable copy of current env vars
+            setEnvEditValues((environmentVars || []).map(v => ({ ...v })));
+            setEnvEditorOpen(true);
+          }}
+          className="ml-2 border px-2 py-1 rounded text-sm bg-white hover:bg-gray-100"
+          title="Open environment variables editor"
+        >
+          Vars
+        </button>
       </div>
+
+      {/* Environment variables preview panel */}
+      {showEnvVars && (
+        <div className="bg-white border-b p-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-sm font-semibold">Environment: {selectedEnv && selectedEnv.toUpperCase()}</div>
+            <div className="text-xs text-gray-500">{environmentVars.length} variables</div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-sm">
+            {environmentVars.length === 0 && (
+              <div className="text-gray-500">No variables for this environment</div>
+            )}
+            {environmentVars.map((v, i) => (
+              <div key={i} className={`p-2 rounded border ${!v.enabled ? 'opacity-60' : ''}`}>
+                <div className="font-mono text-xs text-gray-700">{v.key}</div>
+                <div className="text-sm text-gray-900 break-words">{String(v.value)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Environment editor modal */}
+      {envEditorOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black opacity-40" onClick={() => setEnvEditorOpen(false)} />
+          <div className="bg-white rounded shadow-lg w-11/12 max-w-2xl z-10 p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-lg font-semibold">Edit Environment: {selectedEnv && selectedEnv.toUpperCase()}</div>
+              <div className="space-x-2">
+                <button onClick={() => setEnvEditorOpen(false)} className="px-3 py-1 rounded border">Cancel</button>
+                <button onClick={async () => {
+                  try {
+                    // send edited values to backend
+                    await axios.post(`/environment/${encodeURIComponent(selectedEnv)}`, { values: envEditValues });
+                    // reload environment variables from server
+                    const res = await axios.get(`/environment/${encodeURIComponent(selectedEnv)}`);
+                    setEnvironmentVars(Array.isArray(res.data.values) ? res.data.values : []);
+                    setEnvEditorOpen(false);
+                    alert('Environment saved');
+                  } catch (err) {
+                    console.error('Failed to save environment', err);
+                    alert('Failed to save environment: ' + (err?.response?.data?.error || err.message || err));
+                  }
+                }} className="px-3 py-1 rounded bg-blue-600 text-white">Save</button>
+              </div>
+            </div>
+
+            <div className="space-y-2 max-h-72 overflow-auto">
+              {envEditValues.length === 0 && <div className="text-gray-500">No variables. Add one below.</div>}
+              {envEditValues.map((v, i) => (
+                <div key={i} className="flex items-center space-x-2">
+                  <input className="flex-1 border px-2 py-1 rounded" value={v.key || ''} onChange={(e) => {
+                    const copy = [...envEditValues]; copy[i].key = e.target.value; setEnvEditValues(copy);
+                  }} placeholder="key" />
+                  <input className="flex-2 border px-2 py-1 rounded" value={v.value || ''} onChange={(e) => {
+                    const copy = [...envEditValues]; copy[i].value = e.target.value; setEnvEditValues(copy);
+                  }} placeholder="value" />
+                  <label className="flex items-center space-x-1"><input type="checkbox" checked={v.enabled !== false} onChange={(e) => {
+                    const copy = [...envEditValues]; copy[i].enabled = e.target.checked; setEnvEditValues(copy);
+                  }} /> <span className="text-xs">enabled</span></label>
+                  <button className="px-2 py-1 text-red-600" onClick={() => { const copy = [...envEditValues]; copy.splice(i,1); setEnvEditValues(copy); }}>Remove</button>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-3 flex items-center justify-between">
+              <button className="px-3 py-1 rounded border" onClick={() => setEnvEditValues([...envEditValues, { key: '', value: '', enabled: true }])}>Add Variable</button>
+              <div className="text-xs text-gray-500">Changes are saved to server environment JSON file.</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-1 overflow-hidden">
         {isSidebarOpen && (
