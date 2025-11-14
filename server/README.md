@@ -4,8 +4,8 @@ This server supports loading collections and Postman-style environment files fro
 
 Environment variables
 
-- `COLLECTIONS_DIR` — directory that contains Postman collection JSON files. Defaults to `./collections` inside the `server` folder.
-- `ENV_DIR` — directory that contains Postman environment files (JSON or `.postman_environment`). Defaults to `./environments` inside the `server` folder.
+- `COLLECTIONS_DIR` — directory that contains Postman collection JSON files. Defaults to `./data/collections` at the project root (you can override with the COLLECTIONS_DIR env var).
+- `ENV_DIR` — directory that contains Postman environment files (JSON or `.postman_environment`). Defaults to `./data/environments` at the project root (you can override with the ENV_DIR env var).
 
 Quick examples (Bash)
 
@@ -23,7 +23,7 @@ Edit `server/package.json` and set the `start` script (Linux/macOS) to export th
 ```json
 {
   "scripts": {
-    "start": "COLLECTIONS_DIR=\"$HOME/newman/collections\" ENV_DIR=\"$HOME/newman/environments\" node server.js"
+  "start": "COLLECTIONS_DIR=\"$HOME/newman/collections\" ENV_DIR=\"$HOME/newman/environments\" node server.js"
   }
 }
 ```
@@ -58,7 +58,7 @@ services:
 
 Notes
 
-- The server will auto-create the default `./collections` and `./environments` directories if they don't exist and are writable.
+- The server will auto-create the default `./data/collections` and `./data/environments` directories if they don't exist and are writable.
 - The `/apis` endpoint returns basenames (without extension) of collection files found in `COLLECTIONS_DIR`.
 - The `/environments` endpoint lists environment basenames found in both `ENV_DIR` and `COLLECTIONS_DIR` (many users keep `.postman_environment` files next to collections).
 - If you see unwanted artifacts (e.g. `*.json:Zone`), clean them from the directory or enable filtering in the server config.
