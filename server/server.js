@@ -11,6 +11,94 @@ app.use(express.json());
 
 app.post("/run", async (req, res) => {
   const { method, url, headers, body, collectionName, endpointName } = req.body;
+  const environment = req.body && req.body.environment ? req.body.environment : null;
+
+  // helper to substitute {{var}} occurrences using environment values array [{key, value}]
+  const substituteVars = (text, envVals) => {
+    if (text === undefined || text === null) return text;
+    if (!envVals || !Array.isArray(envVals)) return text;
+    let out = String(text);
+    for (const v of envVals) {
+      if (!v || !v.key) continue;
+      const key = v.key;
+      const val = v.value == null ? '' : String(v.value);
+      out = out.split(`{{${key}}}`).join(val);
+    }
+    return out;
+  };
+
+  // resolve environment values: prefer environment.values passed in request, otherwise try to read by name
+  let envValues = [];
+  if (environment) {
+    if (Array.isArray(environment.values)) envValues = environment.values;
+    else if (environment.name) {
+      const loaded = readEnvironment(environment.name);
+      envValues = Array.isArray(loaded?.values) ? loaded.values : [];
+    }
+  }
+
+  const applySubstitutionToRequest = (reqObj) => {
+    if (!reqObj) return reqObj;
+    // url may be string or object with raw
+    try {
+      // Handle string URL values by substituting and attempting to parse into a Postman-style URL object
+      if (typeof reqObj.url === 'string') {
+        const substituted = substituteVars(reqObj.url, envValues);
+        // If substituted looks like a full URL, parse into components so Newman can execute
+        try {
+          const parsed = new URL(substituted);
+          reqObj.url = {
+            raw: substituted,
+            protocol: parsed.protocol.replace(':', ''),
+            host: parsed.hostname ? parsed.hostname.split('.') : [],
+            path: parsed.pathname ? parsed.pathname.split('/').filter(Boolean) : [],
+            port: parsed.port || undefined,
+          };
+        } catch (e) {
+          // not a fully qualified URL - keep as raw string
+          reqObj.url = substituted;
+        }
+      } else if (reqObj.url && typeof reqObj.url === 'object') {
+        if (reqObj.url.raw) {
+          reqObj.url.raw = substituteVars(reqObj.url.raw, envValues);
+          // if raw now contains a full URL, populate protocol/host/path if missing
+          try {
+            if (typeof reqObj.url.raw === 'string' && /^https?:\/\//i.test(reqObj.url.raw)) {
+              const parsed = new URL(reqObj.url.raw);
+              if (!reqObj.url.protocol) reqObj.url.protocol = parsed.protocol.replace(':', '');
+              if (!reqObj.url.host) reqObj.url.host = parsed.hostname ? parsed.hostname.split('.') : [];
+              if (!reqObj.url.path) reqObj.url.path = parsed.pathname ? parsed.pathname.split('/').filter(Boolean) : [];
+              if (!reqObj.url.port && parsed.port) reqObj.url.port = parsed.port;
+            }
+          } catch (e) {
+            // ignore parse errors
+          }
+        }
+        // also try query params
+        if (Array.isArray(reqObj.url.query)) {
+          for (const q of reqObj.url.query) {
+            if (q && q.value !== undefined) q.value = substituteVars(q.value, envValues);
+          }
+        }
+      }
+
+      // headers
+      const hdrs = reqObj.header || reqObj.headers || [];
+      if (Array.isArray(hdrs)) {
+        for (const h of hdrs) {
+          if (h && h.value !== undefined) h.value = substituteVars(h.value, envValues);
+        }
+      }
+
+      // body (Postman raw)
+      if (reqObj.body && reqObj.body.raw) {
+        reqObj.body.raw = substituteVars(reqObj.body.raw, envValues);
+      }
+    } catch (e) {
+      // ignore substitution errors
+    }
+    return reqObj;
+  };
 
   // If collectionName + endpointName provided, load collection and run only that item
   let tmpCollection;
@@ -36,27 +124,36 @@ app.post("/run", async (req, res) => {
     const found = findItem(collection.item || [], endpointName);
     if (!found) return res.status(404).json({ error: 'Endpoint not found in collection' });
 
+    // clone the found item to avoid mutating on-disk collection
+    const cloned = JSON.parse(JSON.stringify(found));
+    // apply environment substitutions to the request inside the found item
+    applySubstitutionToRequest(cloned.request);
+
     tmpCollection = {
       info: collection.info || { name: `${collectionName} - single`, schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' },
-      item: [found],
+      item: [cloned],
     };
   } else {
     // fallback to dynamic single-request collection built from posted method/url/body
-    tmpCollection = {
-      info: { name: 'Dynamic Run', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' },
-      item: [
-        {
-          name: 'Temp Request',
-          request: {
-            method,
-            header: headers?.map(h => ({ key: h.key, value: h.value, type: 'text' })) || [],
-            url,
-            body: body ? { mode: 'raw', raw: body, options: { raw: { language: 'json' } } } : undefined,
-          },
-        },
-      ],
-    };
+      tmpCollection = {
+          info: { name: 'Dynamic Run', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' },
+          item: [
+              {
+                  name: 'Temp Request',
+                  request: {
+                      method,
+                      header: headers?.map(h => ({ key: h.key, value: h.value, type: 'text' })) || [],
+                      url,
+                      body: body ? { mode: 'raw', raw: body, options: { raw: { language: 'json' } } } : undefined,
+                  },
+              },
+          ],
+      };
   }
+      // apply substitution for dynamic run as well (if environment provided)
+      if (envValues && envValues.length) {
+          applySubstitutionToRequest(tmpCollection.item[0].request);
+      }
 
   const tmpPath = path.join(process.cwd(), `temp_request_${Date.now()}.json`);
   fs.writeFileSync(tmpPath, JSON.stringify(tmpCollection, null, 2));
@@ -175,13 +272,14 @@ app.post('/save', (req, res) => {
 // Excel and collections config
 
 // Collections directory: prefer environment variable COLLECTIONS_DIR if provided
-// otherwise default to ./collections inside the server working directory
+// otherwise default to ./data/collections inside the project root
 const COLLECTIONS_DIR = process.env.COLLECTIONS_DIR
   ? path.resolve(process.env.COLLECTIONS_DIR)
-  : path.join(process.cwd(), "collections");
+  : path.join(process.cwd(), "data", "collections");
 
 // Environments directory (Postman environment files). Prefer ENV_DIR env var
-const ENV_DIR = process.env.ENV_DIR ? path.resolve(process.env.ENV_DIR) : path.join(process.cwd(), "environments");
+// otherwise default to ./data/environments inside the project root
+const ENV_DIR = process.env.ENV_DIR ? path.resolve(process.env.ENV_DIR) : path.join(process.cwd(), "data", "environments");
 // Ensure collections directory exists (create if missing)
 try {
   if (!fs.existsSync(COLLECTIONS_DIR)) {

@@ -29,6 +29,82 @@ export default function App() {
   const [showEnvVars, setShowEnvVars] = useState(false);
   const [envEditorOpen, setEnvEditorOpen] = useState(false);
   const [envEditValues, setEnvEditValues] = useState([]);
+  const [showConsole, setShowConsole] = useState(false);
+  const [lastRequest, setLastRequest] = useState(null);
+  const [lastResponse, setLastResponse] = useState(null);
+  const [showReqHeaders, setShowReqHeaders] = useState(true);
+  const [showReqBody, setShowReqBody] = useState(true);
+  const [showResHeaders, setShowResHeaders] = useState(false);
+  const [showResBody, setShowResBody] = useState(true);
+  
+  const substituteVars = (text, envVals) => {
+    if (!text || typeof text !== 'string') return text;
+    if (!Array.isArray(envVals)) return text;
+    let out = text;
+    for (const v of envVals) {
+      if (!v || !v.key) continue;
+      const key = v.key;
+      const val = v.value == null ? '' : String(v.value);
+      // replace all occurrences of {{key}}
+      out = out.split(`{{${key}}}`).join(val);
+    }
+    return out;
+  };
+
+  const renderHeaders = (hdrs, envVals) => {
+    if (!hdrs) return [];
+    if (Array.isArray(hdrs)) {
+      return hdrs.map(h => ({ key: h.key || h.name || '', value: substituteVars(h.value || '', envVals) }));
+    }
+    // if object map
+    return Object.entries(hdrs).map(([k, v]) => ({ key: k, value: substituteVars(v, envVals) }));
+  };
+  
+  const prettyBody = (b) => {
+    if (!b) return '';
+    try {
+      return JSON.stringify(typeof b === 'string' ? JSON.parse(b) : b, null, 2);
+    } catch (e) {
+      return String(b);
+    }
+  };
+
+  const buildRawRequest = (req) => {
+    if (!req) return '';
+    try {
+      const u = new URL(req.url);
+      const start = `${(req.method || 'GET').toUpperCase()} ${u.pathname}${u.search || ''} HTTP/1.1`;
+      const hdrs = Array.isArray(req.headers) ? req.headers.map(h => `${h.key || h.name}: ${h.value || ''}`) : [];
+      // ensure Host header present
+      if (!hdrs.find(h => h.toLowerCase().startsWith('host:'))) hdrs.push(`Host: ${u.host}`);
+      // content-length naive
+      if (req.body && !hdrs.find(h => h.toLowerCase().startsWith('content-length:'))) hdrs.push(`Content-Length: ${String((req.body || '').length)}`);
+      const headerBlock = showReqHeaders ? hdrs.join('\n') : '';
+      const bodyBlock = showReqBody ? prettyBody(req.body) : '';
+      const parts = [start];
+      if (headerBlock) parts.push(headerBlock);
+      parts.push('');
+      if (bodyBlock) parts.push(bodyBlock);
+      return parts.join('\n');
+    } catch (e) {
+      return `${(req.method || 'GET').toUpperCase()} ${req.url || '-'} HTTP/1.1\n\n${prettyBody(req.body)}`;
+    }
+  };
+
+  const buildRawResponse = (res) => {
+    if (!res || !res.response) return '';
+    const code = res.response.code || '-';
+    const status = res.response.status || '';
+    const start = `HTTP/1.1 ${code} ${status}`.trim();
+    const hdrsArr = Array.isArray(res.response.headers) ? res.response.headers.map(h => `${h.key || h.name}: ${h.value || ''}`) : [];
+    const headerBlock = showResHeaders ? hdrsArr.join('\n') : '';
+    const bodyBlock = showResBody ? prettyBody(res.response?.body) : '';
+    const parts = [start];
+    if (headerBlock) parts.push(headerBlock);
+    parts.push('');
+    if (bodyBlock) parts.push(bodyBlock);
+    return parts.join('\n');
+  };
 
   const runRequest = async () => {
     // build url with query params if provided
@@ -45,13 +121,33 @@ export default function App() {
     if (selectedApi) payload.collectionName = selectedApi;
     if (selectedEndpoint) payload.endpointName = selectedEndpoint;
 
+    // prepare a display payload with environment substitutions for the console
+    const displayPayload = {
+      ...payload,
+      url: substituteVars(payload.url || '', environmentVars),
+      headers: renderHeaders(payload.headers || [], environmentVars),
+      body: substituteVars(payload.body || '', environmentVars),
+    };
+    // prepare actual run payload with substitutions so server/newman receives resolved values
+    const runPayload = {
+      ...payload,
+      url: substituteVars(payload.url || '', environmentVars),
+      headers: renderHeaders(payload.headers || [], environmentVars),
+      body: substituteVars(payload.body || '', environmentVars),
+    };
+
+    // record to console
+    setLastRequest(displayPayload);
+    setLastResponse(null);
+
     const res = await fetch("/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(runPayload),
     });
     const data = await res.json();
     setResponse(data);
+    setLastResponse(data);
     setActiveTab("response");
   };
 
@@ -302,7 +398,7 @@ export default function App() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="h-screen flex flex-col bg-gray-100 pb-28">
       <div className="flex items-center bg-white border-b shadow px-4 py-2">
         <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-200 rounded">
           <List size={18} />
@@ -480,7 +576,58 @@ export default function App() {
             </div>
           </div>
         </div>
-      )}
+  )}
+
+      {/* Fixed bottom Console + bar (enhanced with toggles) */}
+      <div className="fixed left-4 right-4 bottom-16 z-50">
+        {showConsole && (
+          <div className="bg-gray-900 text-white p-3 rounded shadow-lg" style={{ maxHeight: '56vh' }}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex-1 pr-4">
+                <div className="text-sm font-mono break-words"><span className="font-semibold">{(lastRequest?.method || '').toUpperCase()}</span> <span className="ml-2">{lastRequest?.url || '-'}</span></div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="text-sm font-semibold" style={{ padding: '4px 8px', borderRadius: 6, background: (lastResponse?.response?.code >= 200 && lastResponse?.response?.code < 300) ? '#16a34a' : (lastResponse?.response?.code >= 400 ? '#f87171' : '#f59e0b') }}>{lastResponse?.response?.code || '-'}</div>
+                <div className="text-sm text-gray-300">{lastResponse?.time ? `${lastResponse.time} ms` : '-'}</div>
+                <div className="text-xs bg-gray-800 px-2 py-0.5 rounded">Network</div>
+                <div className="space-x-2">
+                  <button onClick={() => setShowReqHeaders(!showReqHeaders)} className={`px-2 py-1 text-xs rounded ${showReqHeaders ? 'bg-gray-700' : 'bg-gray-800'}`}>Request Headers</button>
+                  <button onClick={() => setShowReqBody(!showReqBody)} className={`px-2 py-1 text-xs rounded ${showReqBody ? 'bg-gray-700' : 'bg-gray-800'}`}>Request Body</button>
+                  <button onClick={() => setShowResHeaders(!showResHeaders)} className={`px-2 py-1 text-xs rounded ${showResHeaders ? 'bg-gray-700' : 'bg-gray-800'}`}>Response Headers</button>
+                  <button onClick={() => setShowResBody(!showResBody)} className={`px-2 py-1 text-xs rounded ${showResBody ? 'bg-gray-700' : 'bg-gray-800'}`}>Response Body</button>
+                  <button onClick={() => setShowConsole(false)} className="px-2 py-1 text-xs rounded bg-red-600 ml-2">Close</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <div className="text-xs text-gray-300 mb-1">Request</div>
+                <div className="bg-gray-800 p-2 rounded">
+                  <pre className="text-xs font-mono text-gray-200 bg-gray-900 p-2 rounded max-h-80 overflow-auto whitespace-pre-wrap">{buildRawRequest(lastRequest)}</pre>
+                </div>
+              </div>
+
+              <div>
+                <div className="text-xs text-gray-300 mb-1">Response</div>
+                <div className="bg-gray-800 p-2 rounded">
+                  <pre className="text-xs font-mono text-gray-200 bg-gray-900 p-2 rounded max-h-80 overflow-auto whitespace-pre-wrap">{buildRawResponse(lastResponse)}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-white border-t p-2 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <button onClick={() => setShowConsole(!showConsole)} className={`px-3 py-1 rounded border flex items-center ${showConsole ? 'bg-gray-200' : ''}`}>
+              <Key size={14} className="mr-2" /> Console
+            </button>
+            <div className="text-sm text-gray-500">Last status: {lastResponse?.response?.code || '-'}</div>
+          </div>
+          <div className="text-xs text-gray-400">Postman-like Console</div>
+        </div>
+      </div>
 
       <div className="flex flex-1 overflow-hidden">
         {isSidebarOpen && (

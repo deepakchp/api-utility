@@ -1,0 +1,673 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "69849e33-b2a6-4a44-be7d-31c590f60fb8",
+        "name": "Get Customer",
+        "request": {
+          "url": {
+            "protocol": "https",
+            "path": [
+              "posts",
+              "1"
+            ],
+            "host": [
+              "jsonplaceholder",
+              "typicode",
+              "com"
+            ],
+            "query": [
+              {
+                "key": "testparam",
+                "value": "xyz"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "testheader",
+              "value": "xz"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer MYKEY"
+            }
+          ],
+          "method": "GET",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+          }
+        },
+        "response": [],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "494b3ad6-72e5-46c8-a2e7-d1dde8e3f120",
+      "name": "inf-bank-custarr",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "id": "bb58dd76-0df0-4353-bc34-c55a27201fde",
+    "values": []
+  },
+  "globals": {
+    "id": "94a10e21-2a0e-493e-866b-d047d8a655bd",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 802,
+      "responseMin": 802,
+      "responseMax": 802,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1763085658201,
+      "completed": 1763085659021
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "bb827d63-38a6-4e64-8143-b187ae972bfd",
+          "httpRequestId": "4291b763-e1ef-4d66-866b-c47651329142"
+        },
+        "item": {
+          "id": "69849e33-b2a6-4a44-be7d-31c590f60fb8",
+          "name": "Get Customer",
+          "request": {
+            "url": {
+              "protocol": "https",
+              "path": [
+                "posts",
+                "1"
+              ],
+              "host": [
+                "jsonplaceholder",
+                "typicode",
+                "com"
+              ],
+              "query": [
+                {
+                  "key": "testparam",
+                  "value": "xyz"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "testheader",
+                "value": "xz"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer MYKEY"
+              }
+            ],
+            "method": "GET",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "https",
+            "path": [
+              "posts",
+              "1"
+            ],
+            "host": [
+              "jsonplaceholder",
+              "typicode",
+              "com"
+            ],
+            "query": [
+              {
+                "key": "testparam",
+                "value": "xyz"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "testheader",
+              "value": "xz"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer MYKEY"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "e2ffcd00-027a-492d-8090-ce9991821526",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "jsonplaceholder.typicode.com",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"title\": \"Deepak\",\n  \"body\": \"Poilil\"\n}"
+          }
+        },
+        "response": {
+          "id": "95c3a0cf-861c-4fc6-9bd9-876dc7592f2a",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 14 Nov 2025 02:00:58 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "key": "etag",
+              "value": "W/\"124-yiKdLzqO5gfBrJFrcdJ8Yq0LGnU\""
+            },
+            {
+              "key": "expires",
+              "value": "-1"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=mjVrakSX3mI9jSB2Ts6FoyzR3KAjAzGG3R5Fn4YwmFY%3D\\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\\u0026ts=1763085658\"}],\"max_age\":3600}"
+            },
+            {
+              "key": "reporting-endpoints",
+              "value": "heroku-nel=\"https://nel.heroku.com/reports?s=mjVrakSX3mI9jSB2Ts6FoyzR3KAjAzGG3R5Fn4YwmFY%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1763085658\""
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, Accept-Encoding"
+            },
+            {
+              "key": "via",
+              "value": "2.0 heroku-router"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-powered-by",
+              "value": "Express"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "1000"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "999"
+            },
+            {
+              "key": "x-ratelimit-reset",
+              "value": "1763085713"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "BYPASS"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "br"
+            },
+            {
+              "key": "CF-RAY",
+              "value": "99e2eb149944a943-SYD"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              10,
+              32,
+              32,
+              34,
+              117,
+              115,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              32,
+              49,
+              44,
+              10,
+              32,
+              32,
+              34,
+              105,
+              100,
+              34,
+              58,
+              32,
+              49,
+              44,
+              10,
+              32,
+              32,
+              34,
+              116,
+              105,
+              116,
+              108,
+              101,
+              34,
+              58,
+              32,
+              34,
+              115,
+              117,
+              110,
+              116,
+              32,
+              97,
+              117,
+              116,
+              32,
+              102,
+              97,
+              99,
+              101,
+              114,
+              101,
+              32,
+              114,
+              101,
+              112,
+              101,
+              108,
+              108,
+              97,
+              116,
+              32,
+              112,
+              114,
+              111,
+              118,
+              105,
+              100,
+              101,
+              110,
+              116,
+              32,
+              111,
+              99,
+              99,
+              97,
+              101,
+              99,
+              97,
+              116,
+              105,
+              32,
+              101,
+              120,
+              99,
+              101,
+              112,
+              116,
+              117,
+              114,
+              105,
+              32,
+              111,
+              112,
+              116,
+              105,
+              111,
+              32,
+              114,
+              101,
+              112,
+              114,
+              101,
+              104,
+              101,
+              110,
+              100,
+              101,
+              114,
+              105,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              98,
+              111,
+              100,
+              121,
+              34,
+              58,
+              32,
+              34,
+              113,
+              117,
+              105,
+              97,
+              32,
+              101,
+              116,
+              32,
+              115,
+              117,
+              115,
+              99,
+              105,
+              112,
+              105,
+              116,
+              92,
+              110,
+              115,
+              117,
+              115,
+              99,
+              105,
+              112,
+              105,
+              116,
+              32,
+              114,
+              101,
+              99,
+              117,
+              115,
+              97,
+              110,
+              100,
+              97,
+              101,
+              32,
+              99,
+              111,
+              110,
+              115,
+              101,
+              113,
+              117,
+              117,
+              110,
+              116,
+              117,
+              114,
+              32,
+              101,
+              120,
+              112,
+              101,
+              100,
+              105,
+              116,
+              97,
+              32,
+              101,
+              116,
+              32,
+              99,
+              117,
+              109,
+              92,
+              110,
+              114,
+              101,
+              112,
+              114,
+              101,
+              104,
+              101,
+              110,
+              100,
+              101,
+              114,
+              105,
+              116,
+              32,
+              109,
+              111,
+              108,
+              101,
+              115,
+              116,
+              105,
+              97,
+              101,
+              32,
+              117,
+              116,
+              32,
+              117,
+              116,
+              32,
+              113,
+              117,
+              97,
+              115,
+              32,
+              116,
+              111,
+              116,
+              97,
+              109,
+              92,
+              110,
+              110,
+              111,
+              115,
+              116,
+              114,
+              117,
+              109,
+              32,
+              114,
+              101,
+              114,
+              117,
+              109,
+              32,
+              101,
+              115,
+              116,
+              32,
+              97,
+              117,
+              116,
+              101,
+              109,
+              32,
+              115,
+              117,
+              110,
+              116,
+              32,
+              114,
+              101,
+              109,
+              32,
+              101,
+              118,
+              101,
+              110,
+              105,
+              101,
+              116,
+              32,
+              97,
+              114,
+              99,
+              104,
+              105,
+              116,
+              101,
+              99,
+              116,
+              111,
+              34,
+              10,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 802,
+          "responseSize": 292
+        },
+        "id": "69849e33-b2a6-4a44-be7d-31c590f60fb8"
+      }
+    ],
+    "transfers": {
+      "responseTotal": 292
+    },
+    "failures": [],
+    "error": null
+  }
+}
